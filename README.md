@@ -35,7 +35,7 @@ Run each script from the directory where it is located so that relative source a
 The scripts assume the relevant tools are installed locally:
 
 - gcov scripts: `gcc`, `gcov`, and `gcovr`.
-- Frama-C scripts: `frama-c`, `LTest`; `LAnno`, `Luncov` and `lreplay`
+- Frama-C scripts: `frama-c`, `LTest`; `LAnnot`, `LUncov` and `LReplay`
 - Mutation scripts: `universalmutator`
 
 Test drivers include a commented `exit(1);` line immediately after failure-reporting prints:
