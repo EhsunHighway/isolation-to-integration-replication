@@ -1,0 +1,131 @@
+#include "poly1305_get_tag.h"
+#include <stdio.h>
+#include <stdbool.h>
+#include "poly1305_finish_stub.h"
+void test_poly1305_get_tag(unsigned char *poly_key, const void *ad,
+                             int ad_len, const void *ct, int ct_len, unsigned char *tag, const unsigned char *expected_tag)
+{
+//    printf("\nbefore function call tag in test: \n");
+//    for (int j = 0; j < 16; j++) {
+//        printf("%u, ", tag[j]);
+//    }
+    poly1305_get_tag(poly_key, ad, ad_len, ct, ct_len, tag);
+
+//    printf("\nafter function call tag in test: \n");
+//    for (int j = 0; j < 16; j++) {
+//        printf("%u, ", tag[j]);
+//    }
+
+    bool match = true;
+    for (int i = 0; i < 16; i++) {
+        if (tag[i] != expected_tag[i]) {
+            match = false;
+            break;
+        }
+    }
+
+    if (match) {
+        printf("\nTest passed.\n");
+    } else {
+        printf("\nTest failed.\n");
+        // exit(1); // use this for mutation analysis
+    }
+}
+
+void test_1(){
+    printf("Test 1: ");
+
+    unsigned char key1[32] = {
+            0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,
+            0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f,
+            0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97,
+            0x98, 0x99, 0x9a, 0x9b, 0x9c, 0x9d, 0x9e, 0x9f
+    };
+
+    char ad1[114] = "Test message! Try to have a message with 65 bytes! One extra char.";
+    memcpy(ad1, "Ladies and Gentlemen of the class of '99: If I could offer you "
+               "only one tip for the future, sunscreen would be it.", 114);
+    int ad1_len = 114;
+
+    unsigned char ct1[] = {
+            0xd3, 0x1a, 0x8d, 0x34, 0x64, 0x8e, 0x60, 0xdb, 0x7b, 0x86, 0xaf, 0xbc, 0x53, 0xef, 0x7e, 0xc2,
+            0xa4, 0xad, 0xed, 0x51, 0x29, 0x6e, 0x08, 0xfe, 0xa9, 0xe2, 0xb5, 0xa7, 0x36, 0xee, 0x62, 0xd6,
+            0x3d, 0xbe, 0xa4, 0x5e, 0x8c, 0xa9, 0x67, 0x12, 0x82, 0xfa, 0xfb, 0x69, 0xda, 0x92, 0x72, 0x8b,
+            0x1a, 0x71, 0xde, 0x0a, 0x9e, 0x06, 0x0b, 0x29, 0x05, 0xd6, 0xa5, 0xb6, 0x7e, 0xcd, 0x3b, 0x36,
+            0x92, 0xdd, 0xbd, 0x7f, 0x2d, 0x77, 0x8b, 0x8c, 0x98, 0x03, 0xae, 0xe3, 0x28, 0x09, 0x1b, 0x58,
+            0xfa, 0xb3, 0x24, 0xe4, 0xfa, 0xd6, 0x75, 0x94, 0x55, 0x85, 0x80, 0x8b, 0x48, 0x31, 0xd7, 0xbc,
+            0x3f, 0xf4, 0xde, 0xf0, 0x8e, 0x4b, 0x7a, 0x9d, 0xe5, 0x76, 0xd2, 0x65, 0x86, 0xce, 0xc6, 0x4b,
+            0x61, 0x16
+    };
+    int ct1_len = 114;
+
+    unsigned char tag1[16];
+//    printf("Before poly1305_get_tag, tag1: \n");
+//    for (int i = 0; i < 16; i++) {
+//        printf("%u, ", tag1[i]);
+//    }
+    unsigned char expected_tag1[16] = { 144, 145, 146, 147, 148, 149, 150, 151,
+                                       152, 153, 154, 155, 156, 157, 158, 159
+                                       };
+
+    const unsigned char set_p1[4][4] = {
+            {144, 145, 146, 147},
+            {148, 149, 150, 151},
+            {152, 153, 154, 155},
+            {156, 157, 158, 159}
+    };
+    set_mac(set_p1);
+
+    test_poly1305_get_tag(key1, ad1, ad1_len, ct1, ct1_len, tag1, expected_tag1);
+
+}
+
+void test_2(){
+    printf("Test 2: ");
+    unsigned char key2[32] = {
+            0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,
+            0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f,
+            0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97,
+            0x98, 0x99, 0x9a, 0x9b, 0x9c, 0x9d, 0x9e, 0x9f
+    };
+
+    char ad2[114];
+    int ad2_len = 0;
+
+    unsigned char ct2[] = {
+            0x2e, 0xc1, 0x78, 0xb2, 0xcd, 0x3d, 0xc6, 0x60,
+            0x61, 0xdd, 0x6b, 0xa3, 0x16, 0x7b, 0xf5, 0xd7,
+            0x2c, 0x31, 0x2c, 0x21, 0x3f, 0x98
+    };
+
+    int ct2_len = 64;
+
+    unsigned char tag2[16];
+//    printf("Before poly1305_get_tag, tag1: \n");
+//    for (int i = 0; i < 16; i++) {
+//        printf("%u, ", tag1[i]);
+//    }
+
+
+    unsigned char expected_tag2[16] = {144, 145, 146, 147, 148, 149, 150, 151,
+                                       152, 153, 154, 155, 156, 157, 158, 159
+    };
+
+    const unsigned char set_p2[4][4] = {
+            {144, 145, 146, 147},
+            {148, 149, 150, 151},
+            {152, 153, 154, 155},
+            {156, 157, 158, 159}
+    };
+    set_mac(set_p2);
+
+    test_poly1305_get_tag(key2, ad2, ad2_len, ct2, ct2_len, tag2, expected_tag2);
+
+}
+
+int main(){
+    printf("\nUnit test for poly1305_get_tag(): \n");
+    test_1();
+    test_2();
+
+}

@@ -1,0 +1,10 @@
+*.o
+*.out
+*.gcda
+*.gcno
+*.gcov
+coverage/
+coverage_report/
+cmake-build*/
+build/
+.DS_Store
