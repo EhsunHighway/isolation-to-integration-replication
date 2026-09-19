@@ -1,6 +1,6 @@
 # Replication Package: Case-Study Subjects and Test Scaffolding
 
-This directory contains the subject code and test scaffolding needed to replicate the test executions used in the thesis and publication: "From Isolation to Integration: An Empirical Study on Differences Between Unit and Integration Testing with Applications to C Programs" (DOI: 10.22215/etd/2025-16598).
+This directory contains the subject code and test scaffolding needed to replicate the test executions used in the thesis and publication: "From Isolation to Integration: An Empirical Study on Differences Between Unit and Integration Testing with Applications to C Programs" ([DOI: 10.22215/etd/2025-16598](https://www.sciencedirect.com/science/article/pii/S0950584926003307?via%3Dihub)).
 
 ## Contents
 
